@@ -6,6 +6,7 @@ List lockerList = new List();
 PaymentTransaction current;
 bool home = true;
 List transactionList = new List();
+List walletList = new List();
 UserModel currentUser;
 Struct selectedLock;
 List<bool> lockers = new List();

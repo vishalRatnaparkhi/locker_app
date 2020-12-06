@@ -36,7 +36,11 @@ class _MyHomePageState extends State<MyHomePage> {
   Future getMarkerData() async {
     setState(() {
       if (recentList.length == 0) {
-        Firestore.instance.collection("Locker").snapshots().listen((snapshot) {
+        Firestore.instance
+            .collection("Locker")
+            .orderBy("available locker", descending: true)
+            .snapshots()
+            .listen((snapshot) {
           snapshot.documents.forEach((doc) => recentList.add(new Struct(
               doc['name'],
               doc['address'],
@@ -133,7 +137,12 @@ class _MyHomePageState extends State<MyHomePage> {
               label: Text('Track'),
               backgroundColor: Colors.red,
               icon: Icon(Icons.where_to_vote),
-              onPressed: () => MyRecipt(current),
+              onPressed: () => Navigator.pushReplacement(
+                context,
+                new MaterialPageRoute(
+                  builder: (context) => MyRecipt(current),
+                ),
+              ),
             )
           : null,
     );

@@ -9,7 +9,6 @@ import 'package:locker_app/helper/helper_lists.dart';
 import 'package:typicons_flutter/typicons.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:timeago/timeago.dart' as timeago;
 
 import 'package:locker_app/services/payment_service.dart';
 
@@ -37,6 +36,7 @@ class _TransactionState extends State<Transaction> {
           .collection("User")
           .document(currentUser.uid)
           .collection("Transaction")
+          .orderBy("currentTime", descending: true)
           .snapshots()
           .listen((snapshot) {
         snapshot.documents.forEach((doc) => list.add(new PaymentTransaction(
@@ -49,6 +49,7 @@ class _TransactionState extends State<Transaction> {
               doc['startTime'].toDate(),
               doc['lockerNo'],
               doc['endTime'].toDate(),
+              doc['currentTime'].toDate(),
             )));
       });
     });
@@ -84,6 +85,26 @@ class _TransactionState extends State<Transaction> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
+            SizedBox(
+              height: 28,
+            ),
+            Text(
+              "Transaction History",
+              style: TextStyle(
+                  fontWeight: FontWeight.w500,
+                  color: Colors.black,
+                  fontSize: 16.4),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(right: 100),
+              child: Container(
+                height: 1,
+                color: Colors.black,
+              ),
+            ),
+            SizedBox(
+              height: 30,
+            ),
             Expanded(
               child: FutureBuilder(
                   future: getTransactionData(),
@@ -97,7 +118,7 @@ class _TransactionState extends State<Transaction> {
                                 padding: const EdgeInsets.fromLTRB(
                                     15.0, 15.0, 15.0, 4.0),
                                 child: Container(
-                                  height: 220,
+                                  height: 240,
                                   width: 400,
                                   decoration: BoxDecoration(
                                     color: Colors.indigo,
@@ -107,6 +128,37 @@ class _TransactionState extends State<Transaction> {
                                     padding: const EdgeInsets.only(bottom: 14),
                                     child: Column(
                                       children: <Widget>[
+                                        Padding(
+                                          padding: const EdgeInsets.only(
+                                              top: 8.0, left: 10),
+                                          child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.start,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            mainAxisSize: MainAxisSize.max,
+                                            children: <Widget>[
+                                              Padding(
+                                                padding: const EdgeInsets.only(
+                                                    right: 12.0),
+                                                child: Text(
+                                                  "Ordered At : " +
+                                                      DateFormat(
+                                                              'yyyy-MM-dd - kk:mm')
+                                                          .format(
+                                                              transactionList[
+                                                                      index]
+                                                                  .currentTime),
+                                                  style: TextStyle(
+                                                      color: Colors.white70,
+                                                      fontWeight:
+                                                          FontWeight.w800,
+                                                      fontSize: 17),
+                                                ),
+                                              )
+                                            ],
+                                          ),
+                                        ),
                                         Padding(
                                           padding: const EdgeInsets.all(8.0),
                                           child: Row(
@@ -124,48 +176,19 @@ class _TransactionState extends State<Transaction> {
                                                     transactionList[index]
                                                         .lockerName,
                                                     style: TextStyle(
-                                                        fontSize: 22,
+                                                        fontSize: 20,
                                                         color: Colors.white70),
                                                   )),
                                             ],
                                           ),
                                         ),
-                                        Padding(
-                                          padding:
-                                              const EdgeInsets.only(top: 8.0),
-                                          child: Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.end,
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            mainAxisSize: MainAxisSize.max,
-                                            children: <Widget>[
-                                              Padding(
-                                                padding: const EdgeInsets.only(
-                                                    right: 12.0),
-                                                child: Text(
-                                                  DateFormat(
-                                                          'yyyy-MM-dd - kk:mm')
-                                                      .format(
-                                                          transactionList[index]
-                                                              .startTime),
-                                                  style: TextStyle(
-                                                      color: Colors.white70,
-                                                      fontWeight:
-                                                          FontWeight.w800,
-                                                      fontSize: 17),
-                                                ),
-                                              )
-                                            ],
-                                          ),
-                                        ),
                                         Spacer(),
                                         Padding(
-                                          padding:
-                                              const EdgeInsets.only(top: 8.0),
+                                          padding: const EdgeInsets.only(
+                                              top: 8.0, left: 10),
                                           child: Row(
                                             mainAxisAlignment:
-                                                MainAxisAlignment.end,
+                                                MainAxisAlignment.start,
                                             crossAxisAlignment:
                                                 CrossAxisAlignment.start,
                                             mainAxisSize: MainAxisSize.max,
@@ -183,7 +206,7 @@ class _TransactionState extends State<Transaction> {
                                                       color: Colors.white70,
                                                       fontWeight:
                                                           FontWeight.w800,
-                                                      fontSize: 17),
+                                                      fontSize: 12),
                                                 ),
                                               )
                                             ],
@@ -191,11 +214,11 @@ class _TransactionState extends State<Transaction> {
                                         ),
                                         Spacer(),
                                         Padding(
-                                          padding:
-                                              const EdgeInsets.only(top: 8.0),
+                                          padding: const EdgeInsets.only(
+                                              top: 8.0, left: 10),
                                           child: Row(
                                             mainAxisAlignment:
-                                                MainAxisAlignment.end,
+                                                MainAxisAlignment.start,
                                             crossAxisAlignment:
                                                 CrossAxisAlignment.start,
                                             mainAxisSize: MainAxisSize.max,
@@ -204,14 +227,18 @@ class _TransactionState extends State<Transaction> {
                                                 padding: const EdgeInsets.only(
                                                     right: 12.0),
                                                 child: Text(
-                                                  transactionList[index]
-                                                      .paymentMethod
-                                                      .toString(),
+                                                  "Ordered for : " +
+                                                      DateFormat(
+                                                              'yyyy-MM-dd - kk:mm')
+                                                          .format(
+                                                              transactionList[
+                                                                      index]
+                                                                  .endTime),
                                                   style: TextStyle(
                                                       color: Colors.white70,
                                                       fontWeight:
                                                           FontWeight.w800,
-                                                      fontSize: 17),
+                                                      fontSize: 12),
                                                 ),
                                               )
                                             ],
@@ -241,6 +268,34 @@ class _TransactionState extends State<Transaction> {
                                                       fontWeight:
                                                           FontWeight.w800,
                                                       fontSize: 17),
+                                                ),
+                                              )
+                                            ],
+                                          ),
+                                        ),
+                                        Spacer(),
+                                        Padding(
+                                          padding: const EdgeInsets.only(
+                                              top: 8.0, right: 10),
+                                          child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.end,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            mainAxisSize: MainAxisSize.max,
+                                            children: <Widget>[
+                                              Padding(
+                                                padding: const EdgeInsets.only(
+                                                    right: 12.0),
+                                                child: Text(
+                                                  transactionList[index]
+                                                      .paymentMethod
+                                                      .toString(),
+                                                  style: TextStyle(
+                                                      color: Colors.white70,
+                                                      fontWeight:
+                                                          FontWeight.w800,
+                                                      fontSize: 12),
                                                 ),
                                               )
                                             ],

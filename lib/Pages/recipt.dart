@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:locker_app/CommonWidgets/drawer.dart';
 import 'package:locker_app/helper/helper_lists.dart';
 import 'package:locker_app/services/payment_service.dart';
 import 'package:locker_app/services/qr_scanner.dart';
@@ -22,6 +23,7 @@ class _MyReciptState extends State<MyRecipt> {
   @override
   void initState() {
     setState(() {
+      home = false;
       qrData = widget.transaction.qrcode;
     });
   }
@@ -30,6 +32,41 @@ class _MyReciptState extends State<MyRecipt> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
+      appBar: AppBar(
+        title: Center(
+          child: Text(
+            'Recipt',
+            style: TextStyle(
+                color: Colors.white,
+                fontSize: 24,
+                fontWeight: FontWeight.bold,
+                fontFamily: 'Quickstand'),
+          ),
+        ),
+        actions: <Widget>[
+          Padding(
+            padding: EdgeInsets.only(right: 10),
+            child: GestureDetector(
+              onTap: () {
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => LandingPage(auth: Auth()),
+                  ),
+                );
+              },
+              child: Icon(
+                Icons.clear,
+                color: Colors.white,
+                size: 32,
+              ),
+            ),
+          ),
+        ],
+        backgroundColor: Colors.indigo[900],
+        elevation: 0,
+      ),
+      drawer: DrawerWidget(),
       body: SingleChildScrollView(
         child: SafeArea(
           child: Padding(
@@ -42,16 +79,6 @@ class _MyReciptState extends State<MyRecipt> {
                 ),
                 Row(
                   children: <Widget>[
-                    GestureDetector(
-                      onTap: () {
-                        Navigator.pop(context, true);
-                      },
-                      child: Icon(
-                        Icons.clear,
-                        color: Colors.black,
-                        size: 22,
-                      ),
-                    ),
                     SizedBox(
                       width: 100,
                     ),
@@ -71,6 +98,7 @@ class _MyReciptState extends State<MyRecipt> {
                 ),
                 Center(
                   child: QrImage(
+                    padding: EdgeInsets.all(20),
                     //plce where the QR Image will be shown
                     data: qrData,
                   ),
@@ -99,7 +127,7 @@ class _MyReciptState extends State<MyRecipt> {
                           Text(
                             widget.transaction.qrcode,
                             style: TextStyle(
-                                fontWeight: FontWeight.w700, fontSize: 15),
+                                fontWeight: FontWeight.w700, fontSize: 8),
                           ),
                         ],
                       ),
@@ -119,7 +147,7 @@ class _MyReciptState extends State<MyRecipt> {
                           Text(
                             widget.transaction.lockerName,
                             style: TextStyle(
-                                fontWeight: FontWeight.w700, fontSize: 32),
+                                fontWeight: FontWeight.w700, fontSize: 10),
                           ),
                         ],
                       ),

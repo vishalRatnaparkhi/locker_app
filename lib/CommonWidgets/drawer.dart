@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:locker_app/Pages/recipt.dart';
 import 'package:locker_app/pages/landing_page.dart';
 import 'package:locker_app/helper/helper_lists.dart';
 import 'package:locker_app/services/auth.dart';
@@ -75,6 +76,20 @@ class DrawerWidget extends StatelessWidget {
                   new MaterialPageRoute(builder: (context) => new Wallet()));
             },
           ),
+          current != null
+              ? ListTile(
+                  leading: Icon(Icons.account_balance_wallet),
+                  title: Text("Track"),
+                  onTap: () {
+                    Navigator.pushReplacement(
+                      context,
+                      new MaterialPageRoute(
+                        builder: (context) => MyRecipt(current),
+                      ),
+                    );
+                  },
+                )
+              : ListTile(),
           new Divider(
             endIndent: 100,
           ),

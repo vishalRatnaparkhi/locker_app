@@ -437,134 +437,133 @@ class _MyPaymentPageState extends State<MyPaymentPage> {
                 SizedBox(
                   height: 50,
                 ),
-                Padding(
-                  padding: const EdgeInsets.only(right: 18.0),
-                  child: Container(
-                    height: 1,
-                    color: Colors.grey[200],
-                  ),
-                ),
 
-                Text(
-                  'Order summary',
-                  style: TextStyle(
-                      fontWeight: FontWeight.w500,
-                      color: Colors.grey[900],
-                      fontSize: 14.4),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(right: 18.0),
-                  child: Container(
-                    height: 1,
-                    color: Colors.grey[200],
-                  ),
-                ),
-
-                SizedBox(
-                  height: 25,
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(right: 24.0, left: 10),
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                Card(
+                  color: Colors.white,
+                  child: Column(
                     children: <Widget>[
                       Text(
-                        'Total : ',
+                        'Order summary',
                         style: TextStyle(
-                            fontWeight: FontWeight.w600,
-                            fontSize: 18.4,
-                            letterSpacing: 0.2),
+                            fontWeight: FontWeight.w500,
+                            color: Colors.black,
+                            fontSize: 18.4),
                       ),
-                      SizedBox(
-                        width: 10,
-                      ),
-                      Container(
-                        alignment: Alignment.center,
-                        child: Text(
-                          '$total',
-                          style: TextStyle(
-                              fontSize: 28,
-                              fontWeight: FontWeight.w800,
-                              letterSpacing: 0.2),
+                      Padding(
+                        padding: const EdgeInsets.only(right: 18.0),
+                        child: Container(
+                          height: 1,
+                          color: Colors.black,
                         ),
                       ),
                       SizedBox(
-                        width: 10,
+                        height: 25,
                       ),
-                      Container(
-                        alignment: Alignment.topRight,
-                        child: Text(
-                          '$type',
-                          style: TextStyle(
-                              fontSize: 10,
-                              fontWeight: FontWeight.w800,
-                              letterSpacing: 0.2),
+                      Padding(
+                        padding: const EdgeInsets.only(right: 24.0, left: 10),
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                            Text(
+                              'Total : ',
+                              style: TextStyle(
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.black,
+                                  fontSize: 18.4,
+                                  letterSpacing: 0.2),
+                            ),
+                            Container(
+                              alignment: Alignment.topCenter,
+                              child: Text(
+                                '$total',
+                                style: TextStyle(
+                                    fontSize: 28,
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.w800,
+                                    letterSpacing: 0.2),
+                              ),
+                            ),
+                            SizedBox(
+                              width: 10,
+                            ),
+                            Container(
+                              alignment: Alignment.topRight,
+                              child: Text(
+                                '$type',
+                                style: TextStyle(
+                                    fontSize: 10,
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.w800,
+                                    letterSpacing: 0.2),
+                              ),
+                            ),
+                          ],
                         ),
                       ),
-                    ],
-                  ),
-                ),
-                SizedBox(
-                  height: 20,
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(right: 24.0, left: 10),
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
+                      SizedBox(
+                        height: 20,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(right: 24.0, left: 10),
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                            Container(
+                              alignment: Alignment.topLeft,
+                              child: Text(
+                                'Lease Time : $time',
+                                style: TextStyle(
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: 14,
+                                    letterSpacing: 0.2),
+                              ),
+                            ),
+                            Container(
+                              alignment: Alignment.centerRight,
+                              child: Text(
+                                "Locker No : " + lockerNo,
+                                style: TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w600,
+                                    letterSpacing: 0.2),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      SizedBox(
+                        height: 15,
+                      ),
                       Container(
-                        alignment: Alignment.topLeft,
+                        alignment: Alignment.topCenter,
                         child: Text(
-                          'Lease Time : $time',
+                          'Rented from  ',
                           style: TextStyle(
-                              fontWeight: FontWeight.w600,
                               fontSize: 14,
+                              color: Colors.black,
+                              fontWeight: FontWeight.w700,
                               letterSpacing: 0.2),
                         ),
                       ),
                       SizedBox(
-                        width: 20,
+                        height: 15,
                       ),
                       Container(
-                        width: MediaQuery.of(context).size.width,
                         alignment: Alignment.center,
                         child: Text(
-                          "Locker No : " + lockerNo,
+                          '$dateAndTime',
                           style: TextStyle(
-                              fontSize: 13,
-                              fontWeight: FontWeight.w800,
+                              fontSize: 14,
+                              color: Colors.black,
+                              fontWeight: FontWeight.w600,
                               letterSpacing: 0.2),
                         ),
                       ),
                     ],
-                  ),
-                ),
-                SizedBox(
-                  height: 15,
-                ),
-                Container(
-                  alignment: Alignment.topLeft,
-                  child: Text(
-                    'Rented from : ',
-                    style: TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w800,
-                        letterSpacing: 0.2),
-                  ),
-                ),
-                SizedBox(
-                  height: 15,
-                ),
-                Container(
-                  alignment: Alignment.center,
-                  child: Text(
-                    '$dateAndTime',
-                    style: TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w800,
-                        letterSpacing: 0.2),
                   ),
                 ),
 
@@ -587,19 +586,19 @@ class _MyPaymentPageState extends State<MyPaymentPage> {
                                     context,
                                     ScaleRoute(
                                         page: MyTransactionCommit(
-                                            new PaymentTransaction(
-                                              total,
-                                              time,
-                                              qrcode,
-                                              address,
-                                              lockerNo,
-                                              type,
-                                              date,
-                                              no,
-                                              date.subtract(
-                                                  new Duration(hours: time)),
-                                            ),
-                                            locker)));
+                                      new PaymentTransaction(
+                                          total,
+                                          time,
+                                          qrcode,
+                                          address,
+                                          lockerNo,
+                                          type,
+                                          date,
+                                          no,
+                                          date.add(new Duration(hours: time)),
+                                          DateTime.now()),
+                                      locker,
+                                    )));
                               }
                             : null,
                         color: lockerNo != "XX-00"

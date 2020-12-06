@@ -11,6 +11,7 @@ class SettingWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     c = context;
     return PopupMenuButton<String>(
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(25)),
       icon: Icon(
         Icons.settings,
         color: Colors.white.withOpacity(0.9),

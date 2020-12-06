@@ -1,8 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:locker_app/Pages/home.dart';
 import 'package:locker_app/Pages/recipt.dart';
 import 'package:locker_app/helper/LOCKERS_data.dart';
 import 'package:locker_app/helper/helper_lists.dart';
+import 'package:locker_app/helper/walletSub.dart';
+import 'package:locker_app/services/auth.dart';
 import 'package:locker_app/services/payment_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -53,6 +56,54 @@ class _MyTransactionCommitState extends State<MyTransactionCommit> {
       print("Locker Status not Updated");
   }
 
+  addUserTransactionToWallet() async {
+    FirebaseUser current = await FirebaseAuth.instance.currentUser();
+    int totalBalance;
+    await Firestore.instance
+        .collection("User")
+        .document(current.uid)
+        .collection("Wallet")
+        .document(current.uid)
+        .get()
+        .then((value) => totalBalance = value["Main Balance"]);
+
+    if (transaction.billamount < totalBalance) {
+      await Firestore.instance
+          .collection("User")
+          .document(current.uid)
+          .collection("Wallet")
+          .document(current.uid)
+          .updateData(<String, dynamic>{
+        'Main Balance': totalBalance - transaction.billamount
+      });
+
+      await Firestore.instance
+          .collection("User")
+          .document(current.uid)
+          .collection("Wallet")
+          .document(current.uid)
+          .collection("Transaction")
+          .add(new WalletSub(
+                  transaction.billamount,
+                  false,
+                  transaction.lockerName,
+                  transaction.startTime,
+                  totalBalance - transaction.billamount,
+                  DateTime.now())
+              .toJson2());
+      print("Added new Transaction to Wallet");
+    } else {
+      print("###############Balance Insufficient");
+      Navigator.pop(context);
+      Navigator.pushReplacement(
+        context,
+        new MaterialPageRoute(
+          builder: (context) => MyHomePage(auth: Auth()),
+        ),
+      );
+    }
+  }
+
   addUserTransactionToDb() async {
     FirebaseUser current = await FirebaseAuth.instance.currentUser();
     updateLockerStatus(current);
@@ -62,11 +113,18 @@ class _MyTransactionCommitState extends State<MyTransactionCommit> {
         .document(current.uid)
         .collection("Transaction")
         .add(transaction.toJson());
+
+    await Firestore.instance
+        .collection("User")
+        .document(current.uid)
+        .collection("Wallet")
+        .add(<String, dynamic>{'Main Balance': 0});
     print("Added new Transaction to Db");
   }
 
   @override
   void initState() {
+    addUserTransactionToWallet();
     addUserTransactionToDb();
     super.initState();
   }

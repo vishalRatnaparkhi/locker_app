@@ -37,7 +37,8 @@ dependencies:
   barcode_scan: ^2.0.1
   qr_flutter: ^3.2.0
   path_provider: ^1.6.5
-  timeago:
+  
+  flutter_form_builder: 
   typicons_flutter: ^0.2.1
   crypto_font_icons: ^0.1.0+1
   firebase_core: ^0.4.0

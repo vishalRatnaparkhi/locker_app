@@ -21,6 +21,7 @@ class DraggableSheet extends StatelessWidget {
         .collection("Locker")
         .document(locker.title)
         .collection("EachLocker")
+        .orderBy("locker no")
         .snapshots()
         .listen((snapshot) {
       snapshot.documents.forEach((doc) => list.add(new Locker(
